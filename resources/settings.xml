@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="30000">
+        <setting id="Quality"       type="labelenum"    label="30002" default="Dialog" values="1080p|720p|576p|468p|360p|252p|144p|Dialog"/>
+    </category>
+    <category label="30040">
+        <setting id="provider" type="labelenum" label="30041" default="Dialog" values="OCS|CANAL|Orange|Bouygues Telecom|PlayStation|SFR|Free|Molotov|Teleclub/Swisscom|FRANSAT|Vialis|VIDEOFUTUR|OCS WiBox|OCS Youboox|Monaco Telecom|Parabole Reunion|Zeop|Mauritius Telecom|Code Pro"/>
+        <setting id="username"   type="text" label="30042" default="" subsetting="true"/>
+        <setting id="password"   type="text" label="30043" default="" subsetting="true" option="hidden"/>
+    </category>
+</settings>

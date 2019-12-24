@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.ocs" version="0.1.0" name="OCS" provider-name="CHAMCHENKO">
+    <requires>
+        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="script.module.simplecache" version="1.0.0"/>
+        <import addon="script.module.codequick" version="0.9.10"/>
+        <import addon="script.module.requests" version="2.22.0"/>
+        <import addon="script.module.beautifulsoup4" version="4.3.2"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en_GB">Kodi add-on for watching Videos and Live TV from GO.OCS.FR</summary>
+        <description lang="en_GB">OCS, A Great set of TV Shows and Movies allong with the Live TV Streams of OCS Channels, All you need to do is set your account and here we go</description>
+        <platform>all</platform>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 3, June 2007</license>
+        <source>https://github.com/CHAMCHENKO/KODI_Addons/tree/master/plugin.video.ocs</source>
+        <website>https://ocs.mbc.net/</website>
+        <assets>
+            <icon>resources/images/icon.png</icon>
+            <fanart>resources/images/fanart.jpg</fanart>
+            <screenshot>resources/images/screenshot000.jpg</screenshot>
+            <screenshot>resources/images/screenshot001.jpg</screenshot>
+            <screenshot>resources/images/screenshot002.jpg</screenshot>
+            <screenshot>resources/images/screenshot003.jpg</screenshot>
+            <screenshot>resources/images/screenshot005.jpg</screenshot>
+            <screenshot>resources/images/screenshot006.jpg</screenshot>
+            <screenshot>resources/images/screenshot007.jpg</screenshot>
+        </assets>
+    </extension>
+</addon>
