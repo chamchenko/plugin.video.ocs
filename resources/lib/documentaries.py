@@ -16,9 +16,6 @@ headers = {'User-Agent': USER_AGENT}
 def getDocumentaries(url):
     log('getTvShows')
     xbmcplugin.setContent(int(sys.argv[1])    , 'episodes')
-    print 'UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU'
-    print url
-    print 'UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU'
     items           = json.loads(cacheURL(url,headers))
     for item in items['contents']:
         typecontent     = item['detaillink'].split('/')[4]

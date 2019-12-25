@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import xbmcaddon, json, requests
-from web_browser import cacheURL
 ADDON_ID        = 'plugin.video.ocs'
 REAL_SETTINGS   = xbmcaddon.Addon(id=ADDON_ID)
 ADDON_NAME      = REAL_SETTINGS.getAddonInfo('name')
@@ -23,7 +22,7 @@ MAXBANDWIDTH    = xbmcaddon.Addon(id='inputstream.adaptive').getSetting('MAXBAND
 MINBANDWIDTH    = xbmcaddon.Addon(id='inputstream.adaptive').getSetting('MINBANDWIDTH')
 STREAMSELECTION = xbmcaddon.Addon(id='inputstream.adaptive').getSetting('STREAMSELECTION')
 CONF_URL        = 'https://go.ocs.fr/conf'
-CONFS           = json.loads(cacheURL(CONF_URL, headers={"User-Agent":USER_AGENT}))
+CONFS           = json.loads(requests.get(CONF_URL, headers={"User-Agent":USER_AGENT}).content.decode('utf-8'))
 BASE_URL        = 'https://go.ocs.fr/'
 API_BURL        = CONFS['urlBaseAPI']
 API_TargetWeb   = CONFS['apiTargetWeb']

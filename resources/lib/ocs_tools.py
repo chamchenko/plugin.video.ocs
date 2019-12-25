@@ -4,14 +4,19 @@ import providers
 from vars import *
 from simplecache import SimpleCache
 from tools import log
-
 cookiecache = SimpleCache()
-function    = {"OCS": providers.OCS, "CANAL": providers.CANAL, "Orange": providers.Orange, "BouyguesTelecom": providers.BouyguesTelecom, "PlayStation": providers.PlayStation, "SFR": providers.SFR, "Free": providers.Free, "Molotov": providers.Molotov, "TeleclubSwisscom": providers.TeleclubSwisscom, "FRANSAT": providers.FRANSAT, "Vialis": providers.Vialis, "VIDEOFUTUR": providers.VIDEOFUTUR, "OCSWiBox": providers.OCSWiBox, "OCSYouboox": providers.OCSYouboox, "MonacoTelecom": providers.MonacoTelecom, "ParaboleReunion": providers.ParaboleReunion, "Zeop": providers.Zeop, "MauritiusTelecom": providers.MauritiusTelecom, "CodePro": providers.CodePro}
+provider    =   {"OCS": providers.OCS, "CANAL": providers.CANAL, "Orange": providers.Orange,
+                "BouyguesTelecom": providers.BouyguesTelecom, "PlayStation": providers.PlayStation,
+                "SFR": providers.SFR, "Free": providers.Free, "Molotov": providers.Molotov,
+                "TeleclubSwisscom": providers.TeleclubSwisscom, "FRANSAT": providers.FRANSAT,
+                "Vialis": providers.Vialis, "VIDEOFUTUR": providers.VIDEOFUTUR, "OCSWiBox": providers.OCSWiBox,
+                "OCSYouboox": providers.OCSYouboox, "MonacoTelecom": providers.MonacoTelecom,
+                "ParaboleReunion": providers.ParaboleReunion, "Zeop": providers.Zeop,
+                "MauritiusTelecom": providers.MauritiusTelecom, "CodePro": providers.CodePro}
 def getUserID():
     userID = cookiecache.get(ADDON_NAME + '.userID')
     if not userID:
-        print 'getUserID NOT FROM CACHE'
-        cookiesOAT  = function[PROVIDER]()
+        cookiesOAT  = provider[PROVIDER]()
         if not cookiesOAT:
             userID     = None
         else:
@@ -25,7 +30,7 @@ def getUserID():
 def getCookieOAT2():
     cookiesOAT2 = cookiecache.get(ADDON_NAME + '.cookiesOAT2')
     if not cookiesOAT2:
-        cookiesOAT  = function[PROVIDER]()
+        cookiesOAT  = provider[PROVIDER]()
         if not cookiesOAT:
             cookiesOAT2     = None
         else:

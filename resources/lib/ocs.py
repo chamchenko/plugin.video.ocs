@@ -71,12 +71,9 @@ class OCS(object):
             patternmanifest = "(player\.load\(\')(http.*)\'"
             keyURL          = re.findall(patternkey,contentPlayer)[0][1]
             playbackURL     = re.findall(patternmanifest,contentPlayer)[0][1]
-            print 'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS'
-            print streamID
-            print playbackURL
-            print 'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS'
             liz             = xbmcgui.ListItem(name, path=playbackURL)
             URL_LICENCE_KEY = '%s|User-Agent=%s&referer=%s|R{SSM}|'%(keyURL,USER_AGENT,BASE_URL)
+#                                                         [b/B/R]{SSM} and [b/B/R]{SID}  
             liz.setProperty('inputstreamaddon','inputstream.adaptive')
             liz.setProperty('inputstream.adaptive.manifest_type', 'mpd')
             liz.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
