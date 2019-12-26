@@ -26,6 +26,6 @@ def getMovies(url):
     next            = items['next']
     if next:
         nexturl     = API_BURL+next
-        infoList    = {"mediatype":"episode", "title":"Next"}
+        infoList    = {"mediatype":"episode", "title":LANGUAGE(40012)}
         infoArt     = {"thumb":ICON,"poster":ICON,"fanart":FANART,"icon":ICON,"logo":ICON}
-        addDir("Next", nexturl, 5, infoArt, infoList)
+        addDir(LANGUAGE(40012), nexturl, 5, infoArt, infoList)

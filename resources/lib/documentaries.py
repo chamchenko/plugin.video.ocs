@@ -28,9 +28,9 @@ def getDocumentaries(url):
     next            = items['next']
     if next:
         nexturl     = API_BURL+next
-        infoList    = {"mediatype":"episode", "title":"Next"}
+        infoList    = {"mediatype":"episode", "title":LANGUAGE(40012)}
         infoArt     = {"thumb":ICON,"poster":ICON,"fanart":FANART,"icon":ICON,"logo":ICON}
-        addDir("Next", nexturl, 8, infoArt, infoList)
+        addDir(LANGUAGE(40012), nexturl, 8, infoArt, infoList)
 
 def addVideo(item):
     subtitle    = item['subtitle'].title()
@@ -60,7 +60,24 @@ def addVideosGroup(item):
     title       = item['title'][0]['value'].lower().title()+' [%s]'%subtitle
     thumb       = IMAGE_BURL+item['imageurl']
     fanart      = thumb.split('?')[0]
-    seasonId    = item['id']
+    url         = API_BURL+item['detaillink']
     infoList    = {"mediatype":"episode", "title":title, "TVShowTitle":title}
     infoArt     = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
-    addDir(title, seasonId, 4, infoArt, infoList)
+    addDir(title, url, 10, infoArt, infoList)
+
+def getDocsMags(url):
+    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+    headers     = {'User-Agent': USER_AGENT}
+    episodes    = json.loads(cacheURL(url,headers))['contents']['episodes']
+    for item in episodes:
+        streamID            = item['playinfoid']['sd']        # ['acontents'][0]['contents'][0]['playinfoid']['sd']
+        title               = item['title'][0]['value'].title()+':\n'
+        plot                = title+':\n'+item['summary']
+        thumb               = IMAGE_BURL+item['imageurl']
+        fanart              = thumb.split('?')[0]
+        runtime             = item['duration']
+        duration            = getDuration(runtime)
+        if streamID:
+            infoLabels          = {"mediatype":"episode","title":title,"plot":plot,"duration":duration, "TVShowTitle":title}
+            infoArt             = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
+            addLink(title, streamID, 9, infoLabels, infoArt, len(episodes))

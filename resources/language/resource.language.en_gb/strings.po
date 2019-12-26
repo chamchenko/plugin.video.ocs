@@ -71,6 +71,14 @@ msgctxt "#40011"
 msgid "Login Failed ..."
 msgstr ""
 
+msgctxt "#40012"
+msgid "Next"
+msgstr ""
+
+msgctxt "#40013"
+msgid "Season"
+msgstr ""
+
 msgctxt "#30040"
 msgid "Account"
 msgstr ""

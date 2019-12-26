@@ -22,22 +22,23 @@ def getTvShows(url):
     next            = items['next']
     if next:
         nexturl     = API_BURL+next
-        infoList    = {"mediatype":"episode", "title":"Next"}
+        infoList    = {"mediatype":"episode", "title":LANGUAGE(40012)}
         infoArt     = {"thumb":ICON,"poster":ICON,"fanart":FANART,"icon":ICON,"logo":ICON}
-        addDir("Next", nexturl, 2, infoArt, infoList)
+        addDir(LANGUAGE(40012), nexturl, 2, infoArt, infoList)
 
 def getSeasons(showId):
     log('getSeasons')
     xbmcplugin.setContent(int(sys.argv[1])    , 'episodes')
-    headers     = {'User-Agent': USER_AGENT}
-    items           = json.loads(cacheURL(SHOW_API%showId,headers))['contents']['seasons']
-    for item in items:
+    headers         = {'User-Agent': USER_AGENT}
+    items           = json.loads(cacheURL(SHOW_API%showId,headers))['contents']
+    TVShowTitle     = ""
+    for item in items['seasons']:
         seasonID    = item['id']
-        title       = item['menutitle'][0]['value'].title()
         plot        = item['pitch']
         thumb       = IMAGE_BURL+item['imageurl']
         fanart      = thumb.split('?')[0]
         seasonNum   = item['number']
+        title       = LANGUAGE(40013)+' %s'%seasonNum
         infoList    = {"mediatype":"episode", "title":title,"plot":plot, "TVShowTitle":title}
         infoArt     = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
         infos       = json.dumps({"showId":showId,"seasonID":seasonID,'seasonNum':seasonNum})

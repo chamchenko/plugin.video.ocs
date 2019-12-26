@@ -71,6 +71,14 @@ msgctxt "#40011"
 msgid "Erreur d'authentification ..."
 msgstr ""
 
+msgctxt "#40012"
+msgid "Suivant"
+msgstr ""
+
+msgctxt "#40013"
+msgid "Saison"
+msgstr ""
+
 msgctxt "#30040"
 msgid "Compte"
 msgstr ""

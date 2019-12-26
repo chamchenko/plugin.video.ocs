@@ -25,7 +25,7 @@ from tools import *
 from live import getLive
 from tvshows import getTvShows, getSeasons, getEpisodes
 from movies import getMovies
-from documentaries import getDocumentaries
+from documentaries import getDocumentaries, getDocsMags
 from search import searchContent
 from ocs_tools import getCookieOAT2
 from create_item import addDir
@@ -51,12 +51,13 @@ class OCS(object):
     def browseMovies(self,url):
         getMovies(url)
     def browseSubMenu(self):
-        #if name == "Kids": items = KIDS_SUB_MENU
         for item in KIDS_SUB_MENU: addDir(*item)
     def browseDocumentaries(self,url):
         getDocumentaries(url)
     def browseSearch(self,url):
         searchContent(url)
+    def brouseVideosGroup(self,url):
+        getDocsMags(url)
     def playVideo(self, name, streamID, liz=None):
         log('playVideo')
         playerURL       = PLAYER_API%streamID
@@ -73,7 +74,6 @@ class OCS(object):
             playbackURL     = re.findall(patternmanifest,contentPlayer)[0][1]
             liz             = xbmcgui.ListItem(name, path=playbackURL)
             URL_LICENCE_KEY = '%s|User-Agent=%s&referer=%s|R{SSM}|'%(keyURL,USER_AGENT,BASE_URL)
-#                                                         [b/B/R]{SSM} and [b/B/R]{SID}  
             liz.setProperty('inputstreamaddon','inputstream.adaptive')
             liz.setProperty('inputstream.adaptive.manifest_type', 'mpd')
             liz.setProperty('inputstream.adaptive.license_type', 'com.widevine.alpha')
@@ -106,6 +106,7 @@ elif mode == 6: OCS().browseSubMenu()
 elif mode == 7: OCS().browseSearch(url)
 elif mode == 8: OCS().browseDocumentaries(url)
 elif mode == 9: OCS().playVideo(name, url)
+elif mode == 10: OCS().brouseVideosGroup(url)
 
 
 xbmcplugin.addSortMethod(int(sys.argv[1]) , xbmcplugin.SORT_METHOD_UNSORTED)
