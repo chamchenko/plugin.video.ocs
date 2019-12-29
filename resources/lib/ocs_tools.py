@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests, re, json, datetime
+import requests, re, json, datetime, xbmcgui
 import providers
 from vars import *
 from simplecache import SimpleCache
@@ -24,6 +24,15 @@ def getUserID():
             headerUI    = {"User-Agent":USER_AGENT, "Referer": "referer: https://go.ocs.fr/"}
             request6    = requests.get(urluserID, headers=headerUI, cookies=cookiesOAT, allow_redirects=False)
             userID      = json.loads(request6.content.decode('utf-8').strip())[0]['id']
+            PROFILES    = []
+            profiles    = json.loads(request6.content.decode('utf-8').strip())
+            for profile in profiles:
+                PROFILES.append(profile['name'])
+            dialog      = xbmcgui.Dialog()
+            PROFILE     = dialog.select('Choose Your Profile', PROFILES)
+            userID      = profiles[PROFILE]['id']
+            ischild     = profiles[PROFILE]['ischild']
+            userID      = json.dumps({'userID':userID,'ischild':ischild})
             cookiecache.set(ADDON_NAME + '.userID', userID, expiration=datetime.timedelta(hours=24))
     return userID
 
@@ -34,11 +43,14 @@ def getCookieOAT2():
         if not cookiesOAT:
             cookiesOAT2     = None
         else:
-            userID          = getUserID()
+            items           = json.loads(getUserID())
+            userID          = items['userID']
+            ischild         = items['ischild']
             urlgetCookie    = HOUSEHOLD_API + '?userid=%s'%userID
             headerGC        = {"User-Agent":USER_AGENT, "Referer": BASE_URL+"profile/select"}
             request7        = requests.get(urlgetCookie, headers=headerGC, cookies=cookiesOAT, allow_redirects=False)
             cookiesOAT2     = request7.cookies.get_dict()
+            cookiesOAT2     = json.dumps({'cookiesOAT2':cookiesOAT2,'ischild':ischild})
             cookiecache.set(ADDON_NAME + '.cookiesOAT2', cookiesOAT2, expiration=datetime.timedelta(hours=24))
     return cookiesOAT2
 

@@ -38,9 +38,10 @@ MAGAZINES_API   = API_BURL + API_TargetWeb + 'rubriques/magazines?limit=22'
 HOUSEHOLD_API   = API_BURL + API_TargetWeb + 'households'
 PLAYER_API      = API_BURL + '/core/v1/play/webplayer?cid=%s'
 SEARCH_API      = API_BURL + API_TargetWeb + 'contents?search=%s&limit=22'
-
+SEARCH_KIDS_API = API_BURL + API_TargetWeb + 'contents?filter=jeunesse&search=%s&limit=22'
 KIDS_SUB_MENU   = [(LANGUAGE(40008), API_BURL + API_TargetWeb + "rubriques/jeunesse?filter=seriejeunesse&limit=22", 2),
-                   (LANGUAGE(40009), API_BURL + API_TargetWeb + "rubriques/jeunesse?filter=film&limit=22", 5)]
+                   (LANGUAGE(40003), API_BURL + API_TargetWeb + "rubriques/jeunesse?filter=film&limit=22", 5),
+                   (LANGUAGE(40007) ,"",            11)]
 
 MAIN_MENU       = [(LANGUAGE(40001), "",            1),
                    (LANGUAGE(40002), SHOWS_API,     2),
@@ -48,4 +49,5 @@ MAIN_MENU       = [(LANGUAGE(40001), "",            1),
                    (LANGUAGE(40004), "",            6),
                    (LANGUAGE(40005), DOCS_API,      8),
                    (LANGUAGE(40006), MAGAZINES_API, 8),
-                   (LANGUAGE(40007) ,"",            7)]
+                   (LANGUAGE(40007) ,"",            7),
+                   (LANGUAGE(40009) ,"",           12)]
