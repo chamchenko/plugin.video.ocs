@@ -14,11 +14,11 @@ def getLive():
         streamID    = item['playinfo']['cid']
         StartTime   = item['startdatetime'].split('T')[1].rsplit('+')[0].rsplit(':',1)[0]
         EndTime     = item['enddatetime'].split('T')[1].rsplit('+')[0].rsplit(':',1)[0]
-        title       = "OCS "+item['key'].title()+'\n[%s]'%(item['title'][0]['value'])
+        title       = "OCS "+item['key'].title()+': [%s]'%(item['title'][0]['value'].lower().title())
         icon        = IMAGE_BURL+item['channelimageurl']
         thumb       = IMAGE_BURL+item['imageurl']
         fanart      = IMAGE_BURL+item['fullscreenimageurl']
-        plot        = '%s [%s-%s]:\n%s'%(item['title'][0]['value'],StartTime,EndTime,item['summary'])
+        plot        = '[%s-%s]:\n%s'%(StartTime,EndTime,item['summary'])
         infoLabels  = {"mediatype":"episode", "title":title, "plot":plot, "TVShowTitle":title}
         infoArt     = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":icon,"logo":icon}
         addLink(title, streamID, 9, infoLabels, infoArt, len(items))

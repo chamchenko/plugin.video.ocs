@@ -6,14 +6,7 @@ from ocs_tools import getDuration
 from tools import log, uni
 from create_item import addDir, addLink
 
-
-def searchContent(url=None):
-    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
-    if not url:
-        search_string   = xbmcgui.Dialog().input('Search', type=xbmcgui.INPUT_ALPHANUM)
-        url             = SEARCH_API%urllib.quote('title='+search_string)
-    headers             = {"User-Agent": USER_AGENT}
-    items               = json.loads(cacheURL(url,headers))
+def loadSearch(items):
     for item in items['contents']:
         title           = item['title'][0]['value'].lower().title()
         thumb           = IMAGE_BURL+item['imageurl']
@@ -37,3 +30,27 @@ def searchContent(url=None):
         infoList    = {"mediatype":"episode", "title":"Next"}
         infoArt     = {"thumb":ICON,"poster":ICON,"fanart":FANART,"icon":ICON,"logo":ICON}
         addDir("Next", nexturl, 6, infoArt, infoList)
+
+def searchContent(url=None):
+    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+    if not url:
+        search_string   = xbmcgui.Dialog().input('Search', type=xbmcgui.INPUT_ALPHANUM)
+        url             = SEARCH_API%urllib.quote('title='+search_string)
+    headers             = {"User-Agent": USER_AGENT}
+    items               = json.loads(cacheURL(url,headers))
+    try:
+        loadSearch(items)
+    except:
+        xbmcgui.Dialog().notification(ADDON_NAME, LANGUAGE(40014), ICON, 4000)
+
+def searchKidsContent(url=None):
+    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+    if not url:
+        search_string   = xbmcgui.Dialog().input('Search', type=xbmcgui.INPUT_ALPHANUM)
+        url             = SEARCH_KIDS_API%urllib.quote('title='+search_string)
+    headers             = {"User-Agent": USER_AGENT}
+    items               = json.loads(cacheURL(url,headers))
+    try:
+        loadSearch(items)
+    except:
+        xbmcgui.Dialog().notification(ADDON_NAME, LANGUAGE(40014), ICON, 4000)
