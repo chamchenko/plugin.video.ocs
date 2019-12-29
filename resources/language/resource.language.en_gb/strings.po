@@ -60,7 +60,7 @@ msgid "Series"
 msgstr ""
 
 msgctxt "#40009"
-msgid "Movies"
+msgid "Favorites"
 msgstr ""
 
 msgctxt "#40010"
@@ -77,6 +77,10 @@ msgstr ""
 
 msgctxt "#40013"
 msgid "Season"
+msgstr ""
+
+msgctxt "#40014"
+msgid "No Result found"
 msgstr ""
 
 msgctxt "#30040"

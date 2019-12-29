@@ -13,8 +13,6 @@ def addLink(name, u, mode, infoList=False, infoArt=False, total=0, infoCast=Fals
     else: liz.setArt(infoArt)
     if infoCast != False: liz.setCast(infoCast)
     u=sys.argv[0]+"?url="+urllib.quote_plus(u)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
-    #is_folder = False
-    #return (u, liz, is_folder)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,totalItems=total)
 
 
