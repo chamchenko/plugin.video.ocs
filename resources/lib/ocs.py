@@ -26,7 +26,7 @@ from tools import *
 from live import getLive
 from tvshows import getTvShows, getSeasons, getEpisodes
 from movies import getMovies
-from documentaries import getDocumentaries, getDocsMags
+from mixed import getMixed, getDocsMagsFavs
 from search import searchContent, searchKidsContent
 from ocs_tools import getCookieOAT2
 from create_item import addDir
@@ -60,14 +60,14 @@ class OCS(object):
         getMovies(url)
     def browseSubMenu(self):
         for item in KIDS_SUB_MENU: addDir(*item)
-    def browseDocumentaries(self,url):
-        getDocumentaries(url)
+    def browseMixed(self,url,name):
+        getMixed(url,name)
     def browseSearch(self,url):
         searchContent(url)
     def browseKidsSearch(self,url):
         searchKidsContent(url)
     def brouseVideosGroup(self,url):
-        getDocsMags(url)
+        getDocsMagsFavs(url)
     def playVideo(self, name, streamID, liz=None):
         log('playVideo')
         playerURL           = PLAYER_API%streamID
@@ -115,7 +115,7 @@ elif mode == 4: OCS().browseEpisodes(url)
 elif mode == 5: OCS().browseMovies(url)
 elif mode == 6: OCS().browseSubMenu()
 elif mode == 7: OCS().browseSearch(url)
-elif mode == 8: OCS().browseDocumentaries(url)
+elif mode == 8: OCS().browseMixed(url,name)
 elif mode == 9: OCS().playVideo(name, url)
 elif mode == 10: OCS().brouseVideosGroup(url)
 elif mode == 11: OCS().browseKidsSearch(url)
