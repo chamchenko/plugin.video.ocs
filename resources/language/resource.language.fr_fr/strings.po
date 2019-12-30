@@ -83,6 +83,7 @@ msgstr "Saison"
 msgctxt "#40014"
 msgid "No Result found"
 msgstr "Aucun Résultat Trouvé"
+<<<<<<< HEAD
 
 msgctxt "#40015"
 msgid "Add to OCS favorites"
@@ -91,6 +92,8 @@ msgstr "Ajouter aux Favorits OCS"
 msgctxt "#40016"
 msgid "Remove from OCS favorites"
 msgstr "Supprimer des favorits OCS"
+=======
+>>>>>>> master
 
 msgctxt "#30040"
 msgid "Account"

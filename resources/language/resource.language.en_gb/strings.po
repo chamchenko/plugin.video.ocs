@@ -83,6 +83,7 @@ msgctxt "#40014"
 msgid "No Result found"
 msgstr ""
 
+<<<<<<< HEAD
 msgctxt "#40015"
 msgid "Add to OCS favorites"
 msgstr ""
@@ -91,6 +92,8 @@ msgctxt "#40016"
 msgid "Remove from OCS favorites"
 msgstr ""
 
+=======
+>>>>>>> master
 msgctxt "#30040"
 msgid "Account"
 msgstr ""
