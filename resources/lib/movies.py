@@ -12,17 +12,18 @@ def getMovies(url):
     items           = json.loads(cacheURL(url,headers))
     for item in items['contents']:
         movieID     = item['id']
-        title       = item['title'][0]['value'].lower().title()
-        thumb       = IMAGE_BURL+item['imageurl']
-        fanart      = thumb.split('?')[0]
         infos       = json.loads(cacheURL(MOVIE_API%movieID,headers))['contents']
-        plot        = title+':\n'+infos['summary']
-        runtime     = infos['duration']
-        duration    = getDuration(runtime)
         streamID    = infos['playinfoid']['sd']
-        infoLabels  = {"mediatype":"episode", "title":title, "plot":plot, "TVShowTitle":title}
-        infoArt     = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
-        addLink(title, streamID, 9, infoLabels, infoArt, len(items))
+        if streamID:
+            title       = item['title'][0]['value'].lower().title()
+            thumb       = IMAGE_BURL+item['imageurl']
+            fanart      = thumb.split('?')[0]
+            plot        = title+':\n'+infos['summary']
+            runtime     = infos['duration']
+            duration    = getDuration(runtime)
+            infoLabels  = {"mediatype":"movie", "title":title, "plot":plot, "TVShowTitle":title}
+            infoArt     = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
+            addLink(title, streamID, 9, infoLabels, infoArt, len(items),movieID)
     next            = items['next']
     if next:
         nexturl     = API_BURL+next
