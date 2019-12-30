@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-import urllib, urllib2, xbmcgui, xbmc, datetime
+import urllib, requests, xbmcgui, xbmc, datetime
 from vars import *
 from tools import log
 from simplecache import SimpleCache
 
 cache = SimpleCache()
-def cacheURL(url, headers):
+def cacheURL(url, headers, cookies=None, CACHE=True):
     log('cacheURL, url = ' + str(url))
     try:
         cacheResponse = cache.get(ADDON_NAME + '.openURL, url = %s,headers = %s'%(url,headers))
-        if not cacheResponse:
-            request = urllib2.Request(url, headers=headers)
-            cacheResponse = urllib2.urlopen(request, timeout = TIMEOUT).read().decode('utf-8').strip()
+        if not cacheResponse or CACHE == False:
+            request = requests.get(url, headers=headers, cookies=cookies)
+            cacheResponse = request.content.decode('utf-8').strip()
             cache.set(ADDON_NAME + '.openURL, url = %s,headers = %s'%(url,headers), cacheResponse, expiration=datetime.timedelta(hours=1))
         return cacheResponse
     except Exception as e:log("openURL Failed! " + str(e), xbmc.LOGERROR)
