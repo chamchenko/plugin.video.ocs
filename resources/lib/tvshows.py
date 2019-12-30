@@ -18,13 +18,14 @@ def getTvShows(url):
         fanart      = thumb.split('?')[0]
         infoList    = {"mediatype":"episode", "title":title, "TVShowTitle":title}
         infoArt     = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
-        addDir(title, showId, 3, infoArt, infoList)
+        addDir(title, showId, 3, infoArt, infoList,0,showId)
     next            = items['next']
     if next:
         nexturl     = API_BURL+next
         infoList    = {"mediatype":"episode", "title":LANGUAGE(40012)}
         infoArt     = {"thumb":ICON,"poster":ICON,"fanart":FANART,"icon":ICON,"logo":ICON}
         addDir(LANGUAGE(40012), nexturl, 2, infoArt, infoList)
+
 
 def getSeasons(showId):
     log('getSeasons')
@@ -59,14 +60,15 @@ def getEpisodes(infos):
         if season['id'] != seasonID: continue
         for item in season['episodes']:
             streamID            = item['playinfoid']['sd']        # ['acontents'][0]['contents'][0]['playinfoid']['sd']
-            title               = item['title'][0]['value'].title()+':\n'
-            plot                = title+':\n'+item['summary']
-            thumb               = IMAGE_BURL+item['imageurl']
-            fanart              = thumb.split('?')[0]
-            episodeNum          = item['number']
-            seinfo              = ('S' + ('0' if seasonNum < 10 else '') + str(seasonNum) + 'E' + ('0' if episodeNum < 10 else '') + str(episodeNum))
-            runtime             = item['duration']
-            duration            = getDuration(runtime)
-            infoLabels          = {"mediatype":"episode","title":showTitle+' '+seinfo,"plot":plot,"duration":duration, "TVShowTitle":title}
-            infoArt             = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
-            addLink(title, streamID, 9, infoLabels, infoArt, len(items))
+            if streamID:
+                title               = item['title'][0]['value'].title()+':\n'
+                plot                = title+':\n'+item['summary']
+                thumb               = IMAGE_BURL+item['imageurl']
+                fanart              = thumb.split('?')[0]
+                episodeNum          = item['number']
+                seinfo              = ('S' + ('0' if seasonNum < 10 else '') + str(seasonNum) + 'E' + ('0' if episodeNum < 10 else '') + str(episodeNum))
+                runtime             = item['duration']
+                duration            = getDuration(runtime)
+                infoLabels          = {"mediatype":"episode","title":showTitle+' '+seinfo,"plot":plot,"duration":duration, "TVShowTitle":title}
+                infoArt             = {"thumb":thumb,"poster":thumb,"fanart":fanart,"icon":ICON,"logo":ICON}
+                addLink(title, streamID, 9, infoLabels, infoArt, len(items))
