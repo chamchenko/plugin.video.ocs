@@ -4,6 +4,8 @@ import providers
 from vars import *
 from simplecache import SimpleCache
 from tools import log
+from web_browser import cacheURL
+from create_item import addDir
 cookiecache = SimpleCache()
 provider    =   {"OCS": providers.OCS, "CANAL": providers.CANAL, "Orange": providers.Orange,
                 "BouyguesTelecom": providers.BouyguesTelecom, "PlayStation": providers.PlayStation,
@@ -14,43 +16,39 @@ provider    =   {"OCS": providers.OCS, "CANAL": providers.CANAL, "Orange": provi
                 "ParaboleReunion": providers.ParaboleReunion, "Zeop": providers.Zeop,
                 "MauritiusTelecom": providers.MauritiusTelecom, "CodePro": providers.CodePro}
 def getUserID():
-    userID = cookiecache.get(ADDON_NAME + '.userID')
-    if not userID:
-        cookiesOAT  = provider[PROVIDER]()
-        if not cookiesOAT:
-            userID     = None
-        else:
-            urluserID   = HOUSEHOLD_API
-            headerUI    = {"User-Agent":USER_AGENT, "Referer": "referer: https://go.ocs.fr/"}
-            request6    = requests.get(urluserID, headers=headerUI, cookies=cookiesOAT, allow_redirects=False)
-            userID      = json.loads(request6.content.decode('utf-8').strip())[0]['id']
-            PROFILES    = []
-            profiles    = json.loads(request6.content.decode('utf-8').strip())
-            for profile in profiles:
-                PROFILES.append(profile['name'])
-            dialog      = xbmcgui.Dialog()
-            PROFILE     = dialog.select('Choose Your Profile', PROFILES)
-            userID      = profiles[PROFILE]['id']
-            ischild     = profiles[PROFILE]['ischild']
-            userID      = json.dumps({'userID':userID,'ischild':ischild})
-            cookiecache.set(ADDON_NAME + '.userID', userID, expiration=datetime.timedelta(hours=24))
-    return userID
+    cookiesOAT  = provider[PROVIDER]()
+    if not cookiesOAT:
+        userID     = None
+    else:
+        urluserID   = HOUSEHOLD_API
+        headerUI    = {"User-Agent":USER_AGENT, "Referer": "referer: https://go.ocs.fr/"}
+        request6    = requests.get(urluserID, headers=headerUI, cookies=cookiesOAT, allow_redirects=False)
+        userID      = json.loads(request6.content.decode('utf-8').strip())[0]['id']
+        PROFILES    = []
+        profiles    = json.loads(request6.content.decode('utf-8').strip())
+        for profile in profiles:
+            name    = profile['name']
+            userID  = profile['id']
+            ischild = profile['ischild']
+            avatarID= int(profile['avatarid'])
+            avatar  = IMAGE_BURL + json.loads(cacheURL(SETTINGS_API,headerUI))['avatars'][avatarID-1]['imageurl']
+            userID  = json.dumps({'userID':userID,'ischild':ischild})
+            infoList= {"mediatype":"dirs", "title":name}
+            infoArt = {"thumb":avatar,"poster":avatar,"fanart":FANART,"icon":avatar,"logo":avatar}
+            addDir(name, userID, 100, infoArt, infoList)
+        return cookiecache.set(ADDON_NAME + '.userID', userID, expiration=datetime.timedelta(hours=24))
 
-def getCookieOAT2():
+def getCookieOAT2(userID):
     cookiesOAT2 = cookiecache.get(ADDON_NAME + '.cookiesOAT2')
     if not cookiesOAT2:
         cookiesOAT  = provider[PROVIDER]()
         if not cookiesOAT:
             cookiesOAT2     = None
         else:
-            items           = json.loads(getUserID())
-            userID          = items['userID']
-            ischild         = items['ischild']
             urlgetCookie    = HOUSEHOLD_API + '?userid=%s'%userID
             headerGC        = {"User-Agent":USER_AGENT, "Referer": BASE_URL+"profile/select"}
             request7        = requests.get(urlgetCookie, headers=headerGC, cookies=cookiesOAT, allow_redirects=False)
             cookiesOAT2     = request7.cookies.get_dict()
-            cookiesOAT2     = json.dumps({'cookiesOAT2':cookiesOAT2,'ischild':ischild})
             cookiecache.set(ADDON_NAME + '.cookiesOAT2', cookiesOAT2, expiration=datetime.timedelta(hours=24))
     return cookiesOAT2
 

@@ -28,21 +28,26 @@ from tvshows import getTvShows, getSeasons, getEpisodes
 from movies import getMovies
 from mixed import getMixed, getDocsMagsFavs
 from search import searchContent, searchKidsContent
-from ocs_tools import getCookieOAT2
+from ocs_tools import getCookieOAT2, getUserID
 from create_item import addDir
 from vars import *
 from web_browser import *
 
+cookiecache = SimpleCache()
 socket.setdefaulttimeout(TIMEOUT)
 class OCS(object):
     def __init__(self):
         log('__init__')
-
-    def buildMenu(self):
+    def browseProfiles(self):
+        getUserID()
+    def buildMenu(self,userID):
         try:
-            items       = json.loads(getCookieOAT2())
-            cookiesOAT2 = items['cookiesOAT2']
-            if items['ischild']:
+            items   = json.loads(userID)
+            userID  = items['userID']
+            ischild = items['ischild']
+            cookiecache.set(ADDON_NAME + '.userID', userID, expiration=datetime.timedelta(hours=24))
+            getCookieOAT2(userID)
+            if ischild:
                 for item in KIDS_SUB_MENU: addDir(*item)
             else:
                 for item in MAIN_MENU: addDir(*item)
@@ -71,7 +76,8 @@ class OCS(object):
     def playVideo(self, name, streamID, liz=None):
         log('playVideo')
         playerURL           = PLAYER_API%streamID
-        cookiesOAT2         = json.loads(getCookieOAT2())['cookiesOAT2']
+        userID              = cookiecache.get(ADDON_NAME + '.userID')
+        cookiesOAT2         = json.loads(getCookieOAT2(userID))['cookiesOAT2']
         if cookiesOAT2:
             headersPlayer   = {"User-Agent":USER_AGENT, "Referer": BASE_URL}
             request8        = requests.get(playerURL, headers=headersPlayer, cookies=cookiesOAT2, allow_redirects=False)
@@ -106,8 +112,8 @@ log("Mode: "+str(mode))
 log("URL : "+str(url))
 log("Name: "+str(name))
 
-
-if  mode==None: OCS().buildMenu()
+if  mode==None: OCS().browseProfiles()
+elif mode==100: OCS().buildMenu(url)
 elif mode == 1: OCS().browseLive()
 elif mode == 2: OCS().browseShows(url)
 elif mode == 3: OCS().browseSeasons(url)
